@@ -74,9 +74,10 @@ input {
   position: absolute;
   width: 100%;
   height: 100%;
-  opacity: 0.22;
+  opacity: 0.45;
   border-radius: 22px;
   z-index: 1;
+  filter: blur(4px);
 }
 
 #canvasPreview {
@@ -326,13 +327,14 @@ function desenhar(ctx, redondo) {
 
   if (fotoUsuario) {
     ctx.save();
-    ctx.filter = "blur(35px)";
-    ctx.globalAlpha = 0.75;
+
+    ctx.filter = "blur(55px)";
+    ctx.globalAlpha = 1;
 
     const escalaFundo = Math.max(
       1080 / fotoUsuario.width,
       1080 / fotoUsuario.height
-    ) * 1.2;
+    ) * 1.35;
 
     const larguraFundo = fotoUsuario.width * escalaFundo;
     const alturaFundo = fotoUsuario.height * escalaFundo;
