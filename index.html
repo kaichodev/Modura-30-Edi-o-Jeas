@@ -105,9 +105,11 @@
 
       reader.onload = function (e) {
         fotoUsuario = new Image();
+
         fotoUsuario.onload = function () {
           desenharCanvas();
         };
+
         fotoUsuario.src = e.target.result;
       };
 
@@ -121,7 +123,13 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       if (fotoUsuario) {
-        desenharImagemCobrindo(fotoUsuario, 0, 0, canvas.width, canvas.height);
+        desenharImagemCobrindo(
+          fotoUsuario,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
       }
 
       ctx.drawImage(moldura, 0, 0, canvas.width, canvas.height);
@@ -131,29 +139,66 @@
       const proporcaoCanvas = largura / altura;
       const proporcaoImagem = img.width / img.height;
 
-      let novaLargura, novaAltura, posX, posY;
+      let novaLargura;
+      let novaAltura;
+      let posX;
+      let posY;
 
       if (proporcaoImagem > proporcaoCanvas) {
         novaAltura = altura;
         novaLargura = img.width * (altura / img.height);
+
         posX = x - (novaLargura - largura) / 2;
         posY = y;
       } else {
         novaLargura = largura;
         novaAltura = img.height * (largura / img.width);
+
         posX = x;
         posY = y - (novaAltura - altura) / 2;
       }
 
-      ctx.drawImage(img, posX, posY, novaLargura, novaAltura);
+      ctx.drawImage(
+        img,
+        posX,
+        posY,
+        novaLargura,
+        novaAltura
+      );
     }
 
-     function baixarImagem() {
-      const link = document.createElement("a");
-      link.download = "foto-com-moldura.jpg";
-      link.href = canvas.toDataURL("image/jpeg", 0.95);
-      link.click();
+    function isIphone() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
+
+    function baixarImagem() {
+  const imagemFinal = canvas.toDataURL("image/jpeg", 0.95);
+
+  const iphone = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (iphone) {
+    const novaAba = window.open("", "_blank");
+
+    novaAba.document.body.style.margin = "0";
+    novaAba.document.body.style.background = "#000";
+    novaAba.document.body.style.display = "flex";
+    novaAba.document.body.style.justifyContent = "center";
+    novaAba.document.body.style.alignItems = "center";
+    novaAba.document.body.style.minHeight = "100vh";
+
+    const img = novaAba.document.createElement("img");
+    img.src = imagemFinal;
+    img.style.maxWidth = "100%";
+    img.style.maxHeight = "100%";
+
+    novaAba.document.body.appendChild(img);
+  } else {
+    const link = document.createElement("a");
+    link.download = "foto-com-moldura.jpg";
+    link.href = imagemFinal;
+    link.click();
+  }
+}
   </script>
 
 </body>
