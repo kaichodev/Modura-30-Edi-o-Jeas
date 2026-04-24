@@ -148,10 +148,10 @@
       ctx.drawImage(img, posX, posY, novaLargura, novaAltura);
     }
 
-    function baixarImagem() {
+     function baixarImagem() {
       const link = document.createElement("a");
-      link.download = "foto-com-moldura.png";
-      link.href = canvas.toDataURL("image/png");
+      link.download = "foto-com-moldura.jpg";
+      link.href = canvas.toDataURL("image/jpeg", 0.95);
       link.click();
     }
   </script>
